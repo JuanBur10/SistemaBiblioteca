@@ -275,4 +275,19 @@ class Program
             else if (opcion != 0) { Console.WriteLine("Opcion no valida."); Console.ReadKey(); }
         } while (opcion != 0);
     }
+
+    // ═══════════════════════════════════════════════
+    // RAMA: feature/exit-flow
+    // ═══════════════════════════════════════════════
+    static void Salir()
+    {
+        Console.Clear();
+        Console.Write("Desea guardar antes de salir? (S/N): ");
+        string respuesta = Console.ReadLine();
+        if (respuesta == "S" || respuesta == "s")
+            Console.WriteLine("Datos guardados. Hasta luego!");
+        else
+            Console.WriteLine("Saliendo sin guardar. Hasta luego!");
+        Console.ReadKey();
+    }
 }
