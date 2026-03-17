@@ -252,4 +252,27 @@ class Program
         else if (op == 4) Console.WriteLine("Aqui se va a mostrar el resumen general del sistema.");
         Console.ReadKey();
     }
+    // ═══════════════════════════════════════════════
+    // RAMA: feature/persistence-menu
+    // ═══════════════════════════════════════════════
+    static void MenuGuardarCargar()
+    {
+        int opcion;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("=== GUARDAR / CARGAR DATOS ===");
+            Console.WriteLine("1. Guardar datos");
+            Console.WriteLine("2. Cargar datos");
+            Console.WriteLine("3. Reiniciar datos");
+            Console.WriteLine("0. Volver");
+            Console.Write("Ingrese una opcion: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            if (opcion == 1) { Console.WriteLine("Aqui se van a guardar los datos del sistema."); Console.ReadKey(); }
+            else if (opcion == 2) { Console.WriteLine("Aqui se van a cargar los datos guardados."); Console.ReadKey(); }
+            else if (opcion == 3) { Console.WriteLine("Aqui se va a reiniciar toda la informacion del sistema."); Console.ReadKey(); }
+            else if (opcion != 0) { Console.WriteLine("Opcion no valida."); Console.ReadKey(); }
+        } while (opcion != 0);
+    }
 }
