@@ -135,4 +135,121 @@ class Program
         else if (op == 3) Console.WriteLine("Aqui se va a activar o desactivar el usuario.");
         Console.ReadKey();
     }
+
+    // ═══════════════════════════════════════════════
+    // RAMA: feature/loans-menu
+    // ═══════════════════════════════════════════════
+    static void MenuPrestamos()
+    {
+        int opcion;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("=== MENU PRESTAMOS ===");
+            Console.WriteLine("1. Crear prestamo");
+            Console.WriteLine("2. Listar prestamos");
+            Console.WriteLine("3. Ver detalle de prestamo");
+            Console.WriteLine("4. Registrar devolucion");
+            Console.WriteLine("5. Eliminar prestamo");
+            Console.WriteLine("0. Volver");
+            Console.Write("Ingrese una opcion: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            if (opcion == 1) { Console.WriteLine("Aqui se va a crear un prestamo validando usuario activo y libro disponible."); Console.ReadKey(); }
+            else if (opcion == 2) MenuListarPrestamos();
+            else if (opcion == 3) { Console.WriteLine("Aqui se va a ver el detalle de un prestamo por ID."); Console.ReadKey(); }
+            else if (opcion == 4) { Console.WriteLine("Aqui se va a registrar la devolucion de un libro."); Console.ReadKey(); }
+            else if (opcion == 5) { Console.WriteLine("Aqui se va a eliminar un prestamo solo si esta cerrado."); Console.ReadKey(); }
+            else if (opcion != 0) { Console.WriteLine("Opcion no valida."); Console.ReadKey(); }
+        } while (opcion != 0);
+    }
+
+    static void MenuListarPrestamos()
+    {
+        Console.Clear();
+        Console.WriteLine("=== LISTAR PRESTAMOS ===");
+        Console.WriteLine("1. Todos");
+        Console.WriteLine("2. Activos");
+        Console.WriteLine("3. Cerrados");
+        Console.WriteLine("0. Volver");
+        Console.Write("Ingrese una opcion: ");
+        int op = int.Parse(Console.ReadLine());
+        if (op == 1) Console.WriteLine("Aqui se van a listar todos los prestamos.");
+        else if (op == 2) Console.WriteLine("Aqui se van a listar los prestamos activos.");
+        else if (op == 3) Console.WriteLine("Aqui se van a listar los prestamos cerrados.");
+        Console.ReadKey();
+    }
+    // ═══════════════════════════════════════════════
+    // RAMA: feature/search-reports-menu
+    // ═══════════════════════════════════════════════
+    static void MenuBusquedas()
+    {
+        int opcion;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("=== BUSQUEDAS Y REPORTES ===");
+            Console.WriteLine("1. Buscar libro");
+            Console.WriteLine("2. Buscar usuario");
+            Console.WriteLine("3. Reportes");
+            Console.WriteLine("0. Volver");
+            Console.Write("Ingrese una opcion: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            if (opcion == 1) MenuBuscarLibro();
+            else if (opcion == 2) MenuBuscarUsuario();
+            else if (opcion == 3) MenuReportes();
+            else if (opcion != 0) { Console.WriteLine("Opcion no valida."); Console.ReadKey(); }
+        } while (opcion != 0);
+    }
+
+    static void MenuBuscarLibro()
+    {
+        Console.Clear();
+        Console.WriteLine("=== BUSCAR LIBRO ===");
+        Console.WriteLine("1. Por titulo");
+        Console.WriteLine("2. Por autor");
+        Console.WriteLine("3. Por ID o ISBN");
+        Console.WriteLine("4. Por categoria");
+        Console.WriteLine("0. Volver");
+        Console.Write("Ingrese una opcion: ");
+        int op = int.Parse(Console.ReadLine());
+        if (op == 1) Console.WriteLine("Aqui se va a buscar un libro por titulo.");
+        else if (op == 2) Console.WriteLine("Aqui se va a buscar un libro por autor.");
+        else if (op == 3) Console.WriteLine("Aqui se va a buscar un libro por ID o ISBN.");
+        else if (op == 4) Console.WriteLine("Aqui se va a buscar un libro por categoria.");
+        Console.ReadKey();
+    }
+
+    static void MenuBuscarUsuario()
+    {
+        Console.Clear();
+        Console.WriteLine("=== BUSCAR USUARIO ===");
+        Console.WriteLine("1. Por nombre");
+        Console.WriteLine("2. Por ID o documento");
+        Console.WriteLine("0. Volver");
+        Console.Write("Ingrese una opcion: ");
+        int op = int.Parse(Console.ReadLine());
+        if (op == 1) Console.WriteLine("Aqui se va a buscar un usuario por nombre.");
+        else if (op == 2) Console.WriteLine("Aqui se va a buscar un usuario por ID o documento.");
+        Console.ReadKey();
+    }
+
+    static void MenuReportes()
+    {
+        Console.Clear();
+        Console.WriteLine("=== REPORTES ===");
+        Console.WriteLine("1. Prestamos por usuario");
+        Console.WriteLine("2. Prestamos por libro");
+        Console.WriteLine("3. Prestamos vencidos");
+        Console.WriteLine("4. Resumen general");
+        Console.WriteLine("0. Volver");
+        Console.Write("Ingrese una opcion: ");
+        int op = int.Parse(Console.ReadLine());
+        if (op == 1) Console.WriteLine("Aqui se va a mostrar el reporte de prestamos por usuario.");
+        else if (op == 2) Console.WriteLine("Aqui se va a mostrar el reporte de prestamos por libro.");
+        else if (op == 3) Console.WriteLine("Aqui se va a mostrar el reporte de prestamos vencidos.");
+        else if (op == 4) Console.WriteLine("Aqui se va a mostrar el resumen general del sistema.");
+        Console.ReadKey();
+    }
 }
