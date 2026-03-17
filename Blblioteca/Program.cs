@@ -91,4 +91,48 @@ class Program
         else if (op == 3) Console.WriteLine("Aqui se va a editar el anio y categoria del libro.");
         Console.ReadKey();
     }
+
+    // ═══════════════════════════════════════════════
+    // RAMA: feature/users-menu
+    // ═══════════════════════════════════════════════
+    static void MenuUsuarios()
+    {
+        int opcion;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("=== MENU USUARIOS ===");
+            Console.WriteLine("1. Registrar usuario");
+            Console.WriteLine("2. Listar usuarios");
+            Console.WriteLine("3. Ver detalle de usuario");
+            Console.WriteLine("4. Actualizar usuario");
+            Console.WriteLine("5. Eliminar usuario");
+            Console.WriteLine("0. Volver");
+            Console.Write("Ingrese una opcion: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            if (opcion == 1) { Console.WriteLine("Aqui se va a registrar un nuevo usuario."); Console.ReadKey(); }
+            else if (opcion == 2) { Console.WriteLine("Aqui se va a listar todos los usuarios."); Console.ReadKey(); }
+            else if (opcion == 3) { Console.WriteLine("Aqui se va a ver el detalle de un usuario por ID o documento."); Console.ReadKey(); }
+            else if (opcion == 4) MenuActualizarUsuario();
+            else if (opcion == 5) { Console.WriteLine("Aqui se va a eliminar un usuario, validando que no tenga prestamos activos."); Console.ReadKey(); }
+            else if (opcion != 0) { Console.WriteLine("Opcion no valida."); Console.ReadKey(); }
+        } while (opcion != 0);
+    }
+
+    static void MenuActualizarUsuario()
+    {
+        Console.Clear();
+        Console.WriteLine("=== ACTUALIZAR USUARIO ===");
+        Console.WriteLine("1. Editar nombre");
+        Console.WriteLine("2. Editar contacto");
+        Console.WriteLine("3. Activar o desactivar usuario");
+        Console.WriteLine("0. Volver");
+        Console.Write("Ingrese una opcion: ");
+        int op = int.Parse(Console.ReadLine());
+        if (op == 1) Console.WriteLine("Aqui se va a editar el nombre del usuario.");
+        else if (op == 2) Console.WriteLine("Aqui se va a editar el contacto del usuario.");
+        else if (op == 3) Console.WriteLine("Aqui se va a activar o desactivar el usuario.");
+        Console.ReadKey();
+    }
 }
