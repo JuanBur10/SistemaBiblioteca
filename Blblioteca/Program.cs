@@ -37,7 +37,7 @@ class Program
             }
         }
     }
-// --- Seccion de libros
+// Seccion 1 de libros
     static void MenuLibros()
     {
         Console.Clear();
@@ -53,7 +53,7 @@ class Program
             EjecutarAccion($"Ejecutando operación de libros: {op}");
     }
 
-      // ---Seccion de usuarios---
+      // Seccion 2 de usuarios
     static void MenuUsuarios()
     {
         Console.Clear();
@@ -67,7 +67,7 @@ class Program
             EjecutarAccion($"Ejecutando operación de usuarios: {op}");
     }
 
-      // --- seccion 4 de prestamos ---
+      // seccion 3 de prestamos 
     static void MenuPrestamos()
     {
         Console.Clear();
@@ -83,7 +83,7 @@ class Program
             EjecutarAccion($"Operación de préstamo: {op}");
     }
 
-     // --- seccion 4 , busquedas y reportes ---
+     // seccion 4 , busquedas y reportes 
     static void MenuReportes()
     {
         Console.Clear();
@@ -94,7 +94,7 @@ class Program
         if (op != "0") EjecutarAccion("Generando reporte/búsqueda solicitada...");
     }
 
-    // --- seccion 5 , persistencia ---
+    // seccion 5 , persistencia
     static void MenuDatos()
     {
         Console.Clear();
@@ -110,7 +110,7 @@ class Program
 
 
 
-    // --- HELPERS ---
+    // HELPERS
     static void EjecutarAccion(string mensaje)
     {
         Console.WriteLine($"\n[PROCESO]: {mensaje}");
