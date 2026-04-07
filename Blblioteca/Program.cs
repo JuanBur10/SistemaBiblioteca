@@ -1,4 +1,5 @@
 ﻿using Biblioteca.Models;
+using Biblioteca.Services;
 
 namespace Biblioteca;
 
@@ -21,6 +22,7 @@ class Program
             Console.WriteLine("3. Préstamos");
             Console.WriteLine("4. Búsquedas y Reportes");
             Console.WriteLine("5. Guardar / Cargar Datos");
+            Console.WriteLine("6. Servicios y Estadísticas");
             Console.WriteLine("0. Salir");
             Console.Write("\nSeleccione una opción: ");
 
@@ -31,6 +33,7 @@ class Program
                 case "3": MenuPrestamos(); break;
                 case "4": MenuReportes(); break;
                 case "5": MenuDatos(); break;
+                case "6": MenuServicios(); break;
                 case "0":
                     Console.Write("¿Guardar antes de salir? (S/N): ");
                     if (Console.ReadLine()?.ToUpper() == "S") EjecutarAccion("Guardando cambios y cerrando sesión...");
@@ -39,6 +42,88 @@ class Program
                 default: MensajeError(); break;
             }
         }
+    }
+
+    // Seccion 6 de servicios
+    static void MenuServicios()
+    {
+        Console.Clear();
+        Console.WriteLine(">> SERVICIOS Y ESTADÍSTICAS");
+        Console.WriteLine("6.1 Estadísticas de libros");
+        Console.WriteLine("6.2 Estadísticas de usuarios");
+        Console.WriteLine("6.3 Estadísticas de préstamos");
+        Console.WriteLine("6.4 Comparación Array vs List");
+        Console.WriteLine("0. Volver");
+        Console.Write("\nSeleccione una opción: ");
+
+        string op = Console.ReadLine() ?? "";
+
+        // Datos de prueba
+        LibroService libroService = new LibroService();
+        libroService.AgregarLibro(new Libro(1, "Cien años de soledad", "Gabriel Garcia Marquez", 1967, "Novela"));
+        libroService.AgregarLibro(new Libro(2, "El principito", "Antoine de Saint-Exupery", 1943, "Infantil"));
+        libroService.AgregarLibro(new Libro(3, "Don Quijote", "Miguel de Cervantes", 1605, "Clasico"));
+
+        UsuarioService usuarioService = new UsuarioService();
+        usuarioService.AgregarUsuario(new Usuario(1, "Juan Perez", "juan@gmail.com", "3001234567"));
+        usuarioService.AgregarUsuario(new Usuario(2, "Maria Lopez", "maria@gmail.com", "3107654321"));
+
+        PrestamoService prestamoService = new PrestamoService();
+        prestamoService.AgregarPrestamo(new Prestamo(1, 1, 1));
+        prestamoService.AgregarPrestamo(new Prestamo(2, 2, 2));
+
+        if (op == "6.1")
+        {
+            Console.WriteLine("\n-- BÚSQUEDA POR AUTOR --");
+            List<Libro> encontrados = libroService.BuscarPorAutor("Gabriel");
+            foreach (Libro l in encontrados)
+                Console.WriteLine(l.ResumenCorto());
+
+            Console.WriteLine("\n-- LIBROS ORDENADOS POR TÍTULO --");
+            List<Libro> ordenados = libroService.OrdenarPorTitulo();
+            foreach (Libro l in ordenados)
+                Console.WriteLine(l.ResumenCorto());
+
+            Console.WriteLine();
+            libroService.MostrarEstadisticas();
+        }
+        else if (op == "6.2")
+        {
+            Console.WriteLine("\n-- BÚSQUEDA POR NOMBRE --");
+            List<Usuario> encontrados = usuarioService.BuscarPorNombre("Juan");
+            foreach (Usuario u in encontrados)
+                Console.WriteLine(u.ResumenCorto());
+
+            Console.WriteLine("\n-- USUARIOS ORDENADOS POR NOMBRE --");
+            List<Usuario> ordenados = usuarioService.OrdenarPorNombre();
+            foreach (Usuario u in ordenados)
+                Console.WriteLine(u.ResumenCorto());
+
+            Console.WriteLine();
+            usuarioService.MostrarEstadisticas();
+        }
+        else if (op == "6.3")
+        {
+            Console.WriteLine("\n-- BÚSQUEDA POR ESTADO --");
+            List<Prestamo> activos = prestamoService.BuscarPorEstado(EstadoPrestamo.Activo);
+            foreach (Prestamo p in activos)
+                Console.WriteLine(p.ResumenCorto());
+
+            Console.WriteLine("\n-- PRÉSTAMOS ORDENADOS POR FECHA --");
+            List<Prestamo> ordenados = prestamoService.OrdenarPorFecha();
+            foreach (Prestamo p in ordenados)
+                Console.WriteLine(p.ResumenCorto());
+
+            Console.WriteLine();
+            prestamoService.MostrarEstadisticas();
+        }
+        else if (op == "6.4")
+        {
+            ArrayVsList.MostrarComparacion();
+        }
+
+        Console.WriteLine("\nPresione una tecla para continuar...");
+        Console.ReadKey();
     }
 
     // Seccion 1 de libros
