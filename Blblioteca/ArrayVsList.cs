@@ -1,6 +1,6 @@
 namespace Biblioteca;
 
-class ArrayVsList
+public class ArrayVsList
 {
     public static void MostrarComparacion()
     {
@@ -20,15 +20,14 @@ class ArrayVsList
         {
             Console.WriteLine($"  - {libro}");
         }
-        // El array tiene tamaño fijo, no se puede agregar más elementos
 
-        //CON LIST
+        // CON LIST
         Console.WriteLine("\n── CON LIST ──");
         List<string> librosList = new List<string>();
         librosList.Add("Cien años de soledad");
         librosList.Add("El principito");
         librosList.Add("Don Quijote");
-        librosList.Add("Harry Potter"); // Se puede agregar sin problema
+        librosList.Add("Harry Potter");
 
         Console.WriteLine("Libros en la lista:");
         foreach (string libro in librosList)
@@ -36,14 +35,14 @@ class ArrayVsList
             Console.WriteLine($"  - {libro}");
         }
 
-        librosList.Remove("El principito"); // Se puede eliminar facilmente
+        librosList.Remove("El principito");
         Console.WriteLine("\nDespués de eliminar 'El principito':");
         foreach (string libro in librosList)
         {
             Console.WriteLine($"  - {libro}");
         }
 
-        //DIFERENCIAS 
+        // DIFERENCIAS
         Console.WriteLine("\n── DIFERENCIAS ──");
         Console.WriteLine("ARRAY:");
         Console.WriteLine("  - Tamaño fijo, no cambia");
