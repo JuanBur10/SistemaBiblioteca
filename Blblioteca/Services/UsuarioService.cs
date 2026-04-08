@@ -2,56 +2,43 @@ using Biblioteca.Models;
 
 namespace Biblioteca.Services;
 
-class UsuarioService
+public class UsuarioService
 {
-    // Lista principal de usuarios
     private List<Usuario> usuarios = new List<Usuario>();
+    private int _nextId = 1;
 
-    // AGREGAR
     public void AgregarUsuario(Usuario usuario)
     {
         usuarios.Add(usuario);
-        Console.WriteLine($"Usuario '{usuario.Nombre}' agregado correctamente.");
+        if (usuario.Id >= _nextId) _nextId = usuario.Id + 1;
     }
 
-    // ELIMINAR 
-    public void EliminarUsuario(int id)
+    public bool RegistrarUsuario(string nombre, string email, string telefono)
+    {
+        if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(email)) return false;
+        if (usuarios.Exists(u => u.Email.ToLower() == email.ToLower())) return false;
+        usuarios.Add(new Usuario(_nextId++, nombre, email, telefono));
+        return true;
+    }
+
+    public bool EliminarUsuario(int id)
     {
         Usuario? encontrado = usuarios.Find(u => u.Id == id);
-        if (encontrado != null)
-        {
-            usuarios.Remove(encontrado);
-            Console.WriteLine($"Usuario '{encontrado.Nombre}' eliminado.");
-        }
-        else
-        {
-            Console.WriteLine("No se encontró ningún usuario con ese ID.");
-        }
+        if (encontrado == null) return false;
+        usuarios.Remove(encontrado);
+        return true;
     }
 
-    //OBTENER TODOS 
-    public List<Usuario> ObtenerTodos()
-    {
-        return usuarios;
-    }
+    public List<Usuario> ObtenerTodos() => new List<Usuario>(usuarios);
 
-    //BÚSQUEDAS 
-    public Usuario? BuscarPorId(int id)
-    {
-        return usuarios.Find(u => u.Id == id);
-    }
+    public Usuario? BuscarPorId(int id) => usuarios.Find(u => u.Id == id);
 
-    public Usuario? BuscarPorDocumento(string documento)
-    {
-        return usuarios.Find(u => u.Correo.ToLower().Contains(documento.ToLower()));
-    }
+    public Usuario? BuscarPorEmail(string email) =>
+        usuarios.Find(u => u.Email.ToLower().Contains(email.ToLower()));
 
-    public List<Usuario> BuscarPorNombre(string nombre)
-    {
-        return usuarios.FindAll(u => u.Nombre.ToLower().Contains(nombre.ToLower()));
-    }
+    public List<Usuario> BuscarPorNombre(string nombre) =>
+        usuarios.FindAll(u => u.Nombre.ToLower().Contains(nombre.ToLower()));
 
-    //ORDENACIÓN
     public List<Usuario> OrdenarPorNombre()
     {
         List<Usuario> ordenados = new List<Usuario>(usuarios);
@@ -59,28 +46,25 @@ class UsuarioService
         return ordenados;
     }
 
-    //KPIs 
-    public int TotalUsuarios()
+    public bool ActualizarUsuario(int id, string nombre, string email, string telefono, bool? activo)
     {
-        return usuarios.Count;
+        var u = BuscarPorId(id);
+        if (u == null) return false;
+        if (!string.IsNullOrWhiteSpace(nombre)) u.Nombre = nombre;
+        if (!string.IsNullOrWhiteSpace(email)) u.Email = email;
+        if (!string.IsNullOrWhiteSpace(telefono)) u.Telefono = telefono;
+        if (activo.HasValue) u.Activo = activo.Value;
+        return true;
     }
 
-    public int TotalActivos()
-    {
-        return usuarios.FindAll(u => u.Activo == true).Count;
-    }
-
-    public int TotalInactivos()
-    {
-        return usuarios.FindAll(u => u.Activo == false).Count;
-    }
+    public int Count => usuarios.Count;
 
     public void MostrarEstadisticas()
     {
         Console.WriteLine("──── ESTADÍSTICAS DE USUARIOS ────");
-        Console.WriteLine($"Total de usuarios:    {TotalUsuarios()}");
-        Console.WriteLine($"Usuarios activos:     {TotalActivos()}");
-        Console.WriteLine($"Usuarios inactivos:   {TotalInactivos()}");
+        Console.WriteLine($"Total de usuarios  : {usuarios.Count}");
+        Console.WriteLine($"Activos            : {usuarios.FindAll(u => u.Activo).Count}");
+        Console.WriteLine($"Inactivos          : {usuarios.FindAll(u => !u.Activo).Count}");
         Console.WriteLine("──────────────────────────────────");
     }
 }

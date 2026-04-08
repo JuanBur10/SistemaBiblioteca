@@ -2,61 +2,46 @@ using Biblioteca.Models;
 
 namespace Biblioteca.Services;
 
-class LibroService
+public class LibroService
 {
-    // Lista principal de libros
     private List<Libro> libros = new List<Libro>();
+    private int _nextId = 1;
 
-    // AGREGAR 
     public void AgregarLibro(Libro libro)
     {
         libros.Add(libro);
-        Console.WriteLine($"Libro '{libro.Titulo}' agregado correctamente.");
+        if (libro.Id >= _nextId) _nextId = libro.Id + 1;
     }
 
-    // ELIMINAR
+    public bool RegistrarLibro(string titulo, string autor, int anio, string categoria, string isbn, int stock)
+    {
+        if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(autor)) return false;
+        libros.Add(new Libro(_nextId++, titulo, autor, anio, categoria, isbn, stock));
+        return true;
+    }
+
     public void EliminarLibro(int id)
     {
         Libro? encontrado = libros.Find(l => l.Id == id);
-        if (encontrado != null)
-        {
-            libros.Remove(encontrado);
-            Console.WriteLine($"Libro '{encontrado.Titulo}' eliminado.");
-        }
-        else
-        {
-            Console.WriteLine("No se encontró ningún libro con ese ID.");
-        }
+        if (encontrado != null) libros.Remove(encontrado);
     }
 
-    //OBTENER TODOS 
-    public List<Libro> ObtenerTodos()
-    {
-        return libros;
-    }
+    public List<Libro> ObtenerTodos() => new List<Libro>(libros);
 
-    // BÚSQUEDAS 
-    public Libro? BuscarPorId(int id)
-    {
-        return libros.Find(l => l.Id == id);
-    }
+    public Libro? BuscarPorId(int id) => libros.Find(l => l.Id == id);
 
-    public Libro? BuscarPorIsbn(string isbn)
-    {
-        return libros.Find(l => l.Titulo.ToLower().Contains(isbn.ToLower()));
-    }
+    public List<Libro> BuscarPorISBN(string isbn) =>
+        libros.FindAll(l => l.ISBN.ToLower().Contains(isbn.ToLower()));
 
-    public List<Libro> BuscarPorAutor(string autor)
-    {
-        return libros.FindAll(l => l.Autor.ToLower().Contains(autor.ToLower()));
-    }
+    public List<Libro> BuscarPorAutor(string autor) =>
+        libros.FindAll(l => l.Autor.ToLower().Contains(autor.ToLower()));
 
-    public List<Libro> BuscarPorTitulo(string titulo)
-    {
-        return libros.FindAll(l => l.Titulo.ToLower().Contains(titulo.ToLower()));
-    }
+    public List<Libro> BuscarPorTitulo(string titulo) =>
+        libros.FindAll(l => l.Titulo.ToLower().Contains(titulo.ToLower()));
 
-    //ORDENACIÓN
+    public List<Libro> BuscarPorCategoria(string categoria) =>
+        libros.FindAll(l => l.Categoria.ToLower().Contains(categoria.ToLower()));
+
     public List<Libro> OrdenarPorTitulo()
     {
         List<Libro> ordenados = new List<Libro>(libros);
@@ -67,32 +52,50 @@ class LibroService
     public List<Libro> OrdenarPorAnio()
     {
         List<Libro> ordenados = new List<Libro>(libros);
-        ordenados.Sort((a, b) => a.Anio.CompareTo(b.Anio));
+        ordenados.Sort((a, b) => a.AnioPublicacion.CompareTo(b.AnioPublicacion));
         return ordenados;
     }
 
-    //KPIs 
-    public int TotalLibros()
+    public bool ActualizarLibro(int id, string titulo, string autor, int anio, string categoria)
     {
-        return libros.Count;
+        var libro = BuscarPorId(id);
+        if (libro == null) return false;
+        if (!string.IsNullOrWhiteSpace(titulo)) libro.Titulo = titulo;
+        if (!string.IsNullOrWhiteSpace(autor)) libro.Autor = autor;
+        if (anio > 0) libro.AnioPublicacion = anio;
+        if (!string.IsNullOrWhiteSpace(categoria)) libro.Categoria = categoria;
+        return true;
     }
 
-    public int TotalDisponibles()
+    public bool ReducirStock(int id)
     {
-        return libros.FindAll(l => l.Disponible == true).Count;
+        var libro = BuscarPorId(id);
+        if (libro == null || libro.Stock <= 0) return false;
+        libro.Stock--;
+        return true;
     }
 
-    public int TotalPrestados()
+    public bool AumentarStock(int id)
     {
-        return libros.FindAll(l => l.Disponible == false).Count;
+        var libro = BuscarPorId(id);
+        if (libro == null) return false;
+        libro.Stock++;
+        return true;
     }
+
+    public int Count => libros.Count;
 
     public void MostrarEstadisticas()
     {
         Console.WriteLine("──── ESTADÍSTICAS DE LIBROS ────");
-        Console.WriteLine($"Total de libros:      {TotalLibros()}");
-        Console.WriteLine($"Libros disponibles:   {TotalDisponibles()}");
-        Console.WriteLine($"Libros prestados:     {TotalPrestados()}");
+        Console.WriteLine($"Total de libros    : {libros.Count}");
+        Console.WriteLine($"Disponibles        : {libros.FindAll(l => l.Disponible).Count}");
+        Console.WriteLine($"Sin stock          : {libros.FindAll(l => !l.Disponible).Count}");
+        if (libros.Any())
+        {
+            var top = libros.GroupBy(l => l.Categoria).OrderByDescending(g => g.Count()).First();
+            Console.WriteLine($"Categoría top      : {top.Key} ({top.Count()})");
+        }
         Console.WriteLine("────────────────────────────────");
     }
 }
