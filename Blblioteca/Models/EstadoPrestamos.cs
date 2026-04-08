@@ -1,6 +1,6 @@
 namespace Biblioteca.Models;
 
-enum EstadoPrestamo
+public enum EstadoPrestamo
 {
     Activo,
     Devuelto,
