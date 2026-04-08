@@ -1,46 +1,47 @@
 namespace Biblioteca.Models;
 
-class Usuario
+public class Usuario
 {
-    // Propiedades
     public int Id { get; set; }
     public string Nombre { get; set; }
-    public string Correo { get; set; }
+    public string Email { get; set; }
     public string Telefono { get; set; }
     public bool Activo { get; set; }
+    public DateTime FechaRegistro { get; set; }
 
-    // Constructor vacio
     public Usuario()
     {
         Nombre = "";
-        Correo = "";
+        Email = "";
         Telefono = "";
         Activo = true;
+        FechaRegistro = DateTime.Now;
     }
 
-    // Constructor completo
-    public Usuario(int id, string nombre, string correo, string telefono)
+    public Usuario(int id, string nombre, string email, string telefono)
     {
         Id = id;
         Nombre = nombre;
-        Correo = correo;
+        Email = email;
         Telefono = telefono;
         Activo = true;
+        FechaRegistro = DateTime.Now;
     }
 
-    // Metodos
     public string ResumenCorto()
     {
-        return $"[{Id}] {Nombre} - {Correo}";
+        return $"[{Id}] {Nombre} | {Email} | {(Activo ? "Activo" : "Inactivo")}";
     }
 
     public string DetalleCompleto()
     {
-        return $"ID: {Id}\nNombre: {Nombre}\nCorreo: {Correo}\nTeléfono: {Telefono}\nActivo: {Activo}";
+        return $"ID       : {Id}\n" +
+               $"Nombre   : {Nombre}\n" +
+               $"Email    : {Email}\n" +
+               $"Teléfono : {Telefono}\n" +
+               $"Activo   : {(Activo ? "Sí" : "No")}\n" +
+               $"Registro : {FechaRegistro:dd/MM/yyyy}";
     }
 
-    public override string ToString()
-    {
-        return ResumenCorto();
-    }
+    public override string ToString() => ResumenCorto();
 }
